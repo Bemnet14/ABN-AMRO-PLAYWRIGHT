@@ -1,0 +1,30 @@
+
+/node_modules/
+/test-results/
+*.log
+playwright-report/          
+*.bak                       
+*.tmp           
+/.playwright/            
+
+# NPM debug files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE/Editor config files
+.vscode/
+.idea/
+
+# Playwright-specific
+
+
+
+
