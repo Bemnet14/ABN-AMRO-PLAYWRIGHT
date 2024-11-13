@@ -1,21 +1,22 @@
 // Keywords.js
 const { expect } = require('@playwright/test');
 
-// Validatie van succesvolle login
+
+// Validation of successful login
 async function validateLoginSuccess(page, expectedEmail) {
-  // Wacht op de pagina en controleer of de content zichtbaar is na inloggen
+   // Wait for the page and check if the content is visible after logging in
   await expect(page.locator('#content')).toBeVisible();
 
-  // Verkrijg de ingelogde gebruiker vanuit localStorage
+    // Get the logged-in user from localStorage
   const loggedUser = await page.evaluate(() => localStorage.getItem('logged'));
   
-  // Controleer of de juiste gebruiker is ingelogd
+   // Check if the correct user is logged in
   expect(loggedUser).toBe(expectedEmail);
 }
 
-// Validatie van succesvolle logout
+// Validation of successful logout
 async function validateLogout(page) {
-  // Controleer of de login-knop weer zichtbaar is na uitloggen
+  // Check if the login button is visible again after logging out
   await expect(page.locator('#login')).toBeVisible();
 }
 
