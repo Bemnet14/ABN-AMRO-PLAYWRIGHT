@@ -1,85 +1,76 @@
 const { test, expect } = require('@playwright/test');
 const LoginPage = require('../pageObject/LoginPage');
-const users = require('../test-data/Users.js'); // Gebruikersdata importeren
+const users = require('../test-data/Users.js'); 
 
-test.describe('User Authentication Test - Edge Cases and Invalid Login', () => {
+test.describe('Negative Login Test Cases', () => {
 
-  // Testcase: Login met onjuist wachtwoord voor geldige gebruikersnaam
-  test('Login met onjuist wachtwoord voor geldige gebruikersnaam', async ({ page }) => {
+  //Test case: Login with incorrect password for valid username
+  test('Login with incorrect password for valid username', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const user = users[0];  // Eerste gebruiker
+    const user = users[0];  // First user
 
-    // Ga naar de loginpagina
+    // Go to the login page
     await loginPage.goToLoginPage();
+    await loginPage.login(user.email, 'Incorrectpassword123');  // Incorrect password
 
-    // Acties uitvoeren
-    await loginPage.login(user.email, 'WrongPassword123');  // Onjuist wachtwoord
-
-    // Validatie dat de login-knop zichtbaar is na mislukte login
+   // Validate that the login button is visible after failed login
     const loginButton = await loginPage.getLoginButton();
-    await expect(loginButton).toBeVisible();  // Controleer of de login-knop zichtbaar is
+    await expect(loginButton).toBeVisible();  // Check if the login button is visible
   });
 
-  // Testcase: Login met onjuiste gebruikersnaam voor geldig wachtwoord
-  test('Login met onjuiste gebruikersnaam voor geldig wachtwoord', async ({ page }) => {
+  // Test case: Login with incorrect username and valid password
+  test('Login with incorrect username and valid password', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const user = users[1];  // Tweede gebruiker
+    const user = users[1];  // Second user
 
-    // Ga naar de loginpagina
+     // Go to the login page
     await loginPage.goToLoginPage();
+    await loginPage.login('incorrectuser@gmail.com', user.password);  // Incorrect username
 
-    // Acties uitvoeren
-    await loginPage.login('WrongUser@Example.com', user.password);  // Onjuiste gebruikersnaam
 
-    // Validatie dat de login-knop zichtbaar is na mislukte login
+    // Validate that the login button is visible after failed login
     const loginButton = await loginPage.getLoginButton();
-    await expect(loginButton).toBeVisible();  // Controleer of de login-knop zichtbaar is
+    await expect(loginButton).toBeVisible();  // Check if the login button is visible
   });
 
-  // Testcase: Login met leeg gebruikersnaamveld
-  test('Login met leeg gebruikersnaamveld', async ({ page }) => {
+  // Test case: Login with empty username field
+  test('Login with empty username field', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const user = users[2];  // Derde gebruiker
+    const user = users[2];   // Third use
 
-    // Ga naar de loginpagina
+    // Go to the login page
     await loginPage.goToLoginPage();
+    await loginPage.login('', user.password);  // Empty username field
 
-    // Acties uitvoeren
-    await loginPage.login('', user.password);  // Leeg gebruikersnaamveld
-
-    // Validatie dat de login-knop zichtbaar is na mislukte login
+    // Validate that the login button is visible after failed login
     const loginButton = await loginPage.getLoginButton();
-    await expect(loginButton).toBeVisible();  // Controleer of de login-knop zichtbaar is
+    await expect(loginButton).toBeVisible();  // Check if the login button is visible
   });
 
-  // Testcase: Login met leeg wachtwoordveld
-  test('Login met leeg wachtwoordveld', async ({ page }) => {
+  // Test case: Login with empty password field
+  test('Login with empty password field', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const user = users[0];  // Eerste gebruiker
+    const user = users[0];  // First user
 
-    // Ga naar de loginpagina
+     // Go to the login page
     await loginPage.goToLoginPage();
+    await loginPage.login(user.email, '');  // Empty password field
 
-    // Acties uitvoeren
-    await loginPage.login(user.email, '');  // Leeg wachtwoordveld
-
-    // Validatie dat de login-knop zichtbaar is na mislukte login
+    // Validate that the login button is visible after failed loginin
     const loginButton = await loginPage.getLoginButton();
-    await expect(loginButton).toBeVisible();  // Controleer of de login-knop zichtbaar is
+    await expect(loginButton).toBeVisible();  // Check if the login button is visible
   });
 
-  // Testcase: Login met gebruikersnaam die niet bestaat in het systeem
-  test('Login met gebruikersnaam die niet bestaat in het systeem', async ({ page }) => {
+  // Test case: Login with username that does not exist in the system
+  test('Login with username that does not exist in the system', async ({ page }) => {
     const loginPage = new LoginPage(page);
 
-    // Ga naar de loginpagina
+    // Go to the login page
     await loginPage.goToLoginPage();
+    await loginPage.login('NonExistingUser@gmail.com', 'Password123');   // Non-existing username
 
-    // Acties uitvoeren
-    await loginPage.login('NonExistingUser@Example.com', 'SomePassword123');  // Niet-bestaande gebruikersnaam
-
-    // Validatie dat de login-knop zichtbaar is na mislukte login
+   // Validate that the login button is visible after failed login
     const loginButton = await loginPage.getLoginButton();
-    await expect(loginButton).toBeVisible();  // Controleer of de login-knop zichtbaar is
+    await expect(loginButton).toBeVisible();  // Check if the login button is visible to ensure a user who does not exist in the system cannot access the system
   });
 });

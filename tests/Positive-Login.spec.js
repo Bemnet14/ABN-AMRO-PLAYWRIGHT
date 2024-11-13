@@ -2,85 +2,55 @@ const { test, expect, devices } = require('@playwright/test');
 const LoginPage = require('../pageObject/LoginPage');
 const ContentPage = require('../pageObject/ContentPage');
 const { validateLoginSuccess } = require('../utils/testkeywords');
-const users = require('../test-data/Users.js'); // Je gebruikersdata
+const users = require('../test-data/Users.js'); 
 
-test.describe('User Authentication Tests - Eén gebruiker per keer', () => {
+test.describe('Positive Login Test Cases', () => {
   
   for (let i = 0; i < users.length; i++) {
     const user = users[i];
     
-    test(`Test login voor gebruiker ${i + 1}: ${user.email}`, async ({ page }) => {
+    test(`should log in successfully with correct credentials, should log out succesfully ${i + 1}: ${user.email}`, async ({ page }) => {
       const loginPage = new LoginPage(page);
       const contentPage = new ContentPage(page);
       
-      // Ga naar de pagina
-      await page.goto('http://127.0.0.1:5500/index.html');  // Pas URL aan naar je testomgeving
+      // Go to the page
+      await page.goto('http://127.0.0.1:5500/index.html');  
       await loginPage.login(user.email, user.password);
 
-       
-
-        await contentPage.validateMenuItems(); // Correcte aanroep via de instantie
-
-    // Valideer de content teksten
-        await contentPage.validateContentTexts(); // Correcte aanroep via de instantie
-
-      
-      // Valideer of het inloggen succesvol was
+      // Validate if the login was successful
       await validateLoginSuccess(page, user.email);
+      // Validate the content texts
+      await contentPage.validateMenuItems(); 
+      await contentPage.validateContentTexts(); 
       
-      // Logout na succesvolle login
+      // Log out after successful login
       await loginPage.logout();
       
-      // Valideer of de tekst zichtbaar is na uitloggen
+      // Validate if the text is visible after logging out
       const logoutMessage = page.locator("text='Automation doesn't stop at testing, it's just a beginning!'");
-      await expect(logoutMessage).toBeVisible();  // Controleer of de tekst zichtbaar is
+      await expect(logoutMessage).toBeVisible();  
     });
   }
 
-  // Testcase: Login met een gebruikersnaam die zowel hoofdletters als kleine letters bevat
-  test('Login met een gebruikersnaam die zowel hoofdletters als kleine letters bevat', async ({ page }) => {
+  // Testcase: Log in with a username that contains both upper and lower case letters
+  test('Log in with a username that contains both upper and lower case letters', async ({ page }) => {
     const loginPage = new LoginPage(page);
-    const user = users[0];  // Eerste gebruiker
+    const user = users[0];  
 
-    // Ga naar de pagina
-    await page.goto('http://127.0.0.1:5500/index.html');  // Pas URL aan naar je testomgeving
+    // Go to the page
+    await page.goto('http://127.0.0.1:5500/index.html');  
     
-    // Login met een gebruikersnaam met zowel hoofdletters als kleine letters
-    await loginPage.login(user.email.toUpperCase(), user.password);  // Hoofdletters in email
+    // Login with a username that contains both upper and lower case letters
+    await loginPage.login(user.email.toUpperCase(), user.password);  // Uppercase letters in email
 
-    // Valideer of de tekst zichtbaar is na uitloggen
+    await validateLoginSuccess(page, user.email);
+    // Validate the content texts
+    await contentPage.validateMenuItems(); 
+    await contentPage.validateContentTexts(); 
+
+     // Validate if the text is visible after logging out
     const logoutMessage = page.locator("text='Automation doesn't stop at testing, it's just a beginning!'");
-    await expect(logoutMessage).toBeVisible();  // Controleer of de tekst zichtbaar is
+    await expect(logoutMessage).toBeVisible();  
   });
 
-  // Testcase: Login in verschillende browsers (Chrome, Firefox, Edge)
-  const browsers = ['chromium', 'firefox', 'webkit'];
-
-  for (const browserName of browsers) {
-    test(`Login met ${browserName} browser`, async ({ browser }) => {
-      const context = await browser.newContext();
-      const page = await context.newPage();
-      const loginPage = new LoginPage(page);
-      const user = users[0];  // Eerste gebruiker voor test
-
-      // Ga naar de pagina
-      await page.goto('http://127.0.0.1:5500/index.html');  // Pas URL aan naar je testomgeving
-
-      // Voer de login uit
-      await loginPage.login(user.email, user.password);
-
-      // Valideer of het inloggen succesvol was
-      await validateLoginSuccess(page, user.email);
-
-      // Logout na succesvolle login
-      await loginPage.logout();
-
-      // Controleer of de logout-berichttekst zichtbaar is
-      const logoutMessage = page.locator("text='Automation doesn't stop at testing, it's just a beginning!'");
-      await expect(logoutMessage).toBeVisible();  // Controleer of de tekst zichtbaar is
-
-      // Sluit de context na de test
-      await context.close();
-    });
-  }
 });
