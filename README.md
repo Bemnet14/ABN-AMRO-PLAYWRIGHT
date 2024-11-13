@@ -13,25 +13,12 @@ The tests support Chromium, Firefox, and WebKit (Safari).
 
 ### Installation Steps:
 
-1. Clone the repository to your local machine:
-
-    ```bash
-    git clone <https://github.com/Bemnet14/ABN-AMRO-PLAYWRIGHT>
-    cd <ABN-AMRO-PLAYWRIGHT
->
-    ```
-
-2. Install dependencies: Install Playwright and the necessary browser binaries:
+1. Install dependencies: Install Playwright and the necessary browser binaries:
 
     ```bash
     npm install
     ```
 
-3. Install Playwright browsers: To make Playwright work correctly, you need to install the browsers:
-
-    ```bash
-    npm install 
-    ```
 
 ### Suggested Folder Structure:
 
@@ -41,6 +28,7 @@ The project is structured as follows:
 - **pageObject/**: Contains page objects for reusable actions and selectors.
 - **test-data/**: Contains test data.
 - **test-results/**: Contains test result outputs.
+- **reports/**: Contains test result html outputs.
 
 ## Running Tests
 
@@ -50,6 +38,7 @@ To run tests across all browsers simultaneously, use:  This will open the browse
 
 ```bash
 npx playwright test
+```
 
 ### Running Tests in Multiple Browsers:
 
@@ -59,12 +48,13 @@ To run tests in multiple browsers such as **Chromium**, **Firefox**, and **WebKi
 npx playwright test --project=Chromium
 npx playwright test --project=Firefox
 npx playwright test --project=WebKit
+```
 
 Test Reports:
-Test results are saved in the test-results/ folder. You can view the reports in the test-results/html-report folder. 
+Test results are saved in the test-results/ folder. 
 
 Viewing Reports:
-After running the tests, you can view the results by opening the index.html file in the test-results/html-report folder in your browser.
+After running the tests, you can view the results by opening the index.html file in the reports/html-report folder in your browser.
 
 .gitignore
 The .gitignore file is configured to exclude unnecessary files.
