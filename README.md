@@ -18,9 +18,18 @@ The tests support Chromium, Firefox, and WebKit (Safari).
     ```bash
     npm install
     ```
+2. To clone my repository to your local machine, use the following command in your terminal:    
 
+    ```bash
+    git clone https://github.com/Bemnet14/ABN-AMRO-PLAYWRIGHT.git
+    ```
+3. This will create a new folder called ABN-AMRO-PLAYWRIGHT in your current directory with all the files from the repository. After cloning, navigate into the project directory:
 
-### Suggested Folder Structure:
+    ```bash
+    cd ABN-AMRO-PLAYWRIGHT
+    ```
+
+### Folder Structure:
 
 The project is structured as follows:
 
@@ -50,11 +59,14 @@ npx playwright test --project=Firefox
 npx playwright test --project=WebKit
 ```
 
-Test Reports:
+## Test Reports:
+
 Test results are saved in the test-results/ folder. 
 
-Viewing Reports:
+## Viewing Reports:
+
 After running the tests, you can view the results by opening the index.html file in the reports/html-report folder in your browser.
 
-.gitignore
+## .gitignore
+
 The .gitignore file is configured to exclude unnecessary files.
